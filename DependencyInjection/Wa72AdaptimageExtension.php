@@ -41,7 +41,7 @@ class Wa72AdaptimageExtension extends Extension
 
         $d = new Definition(ResponsiveImageRouter::class);
         $d->addArgument(new Reference('router'));
-        $d->addArgument($container->getParameter('kernel.project_dir' . \DIRECTORY_SEPARATOR . 'public'));
+        $d->addArgument($container->getParameter('kernel.project_dir') . \DIRECTORY_SEPARATOR . 'public');
         $container->setDefinition(ResponsiveImageRouterInterface::class, $d);
 
         $d = new Definition(ResponsiveImageHelper::class);
