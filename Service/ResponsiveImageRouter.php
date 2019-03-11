@@ -33,15 +33,18 @@ class ResponsiveImageRouter implements ResponsiveImageRouterInterface
 
     public function getOriginalImageFileInfo($original_image_url)
     {
-        if (substr($original_image_url, 0, 1) != '/') {
-            $original_image_url = '/' . $original_image_url;
+        if (substr($original_image_url, 0, 1) == '/') {
+            $original_image_url = substr($original_image_url, 1);
         }
-        $path = realpath($this->webroot . $original_image_url);
+        $path = realpath($this->webroot . \DIRECTORY_SEPARATOR . $original_image_url);
         return ImageFileInfo::createFromFile($path);
     }
 
     public function generateUrl($original_image_url, $image_class, $image_width)
     {
+        if (substr($original_image_url, 0, 1) == '/') {
+            $original_image_url = substr($original_image_url, 1);
+        }
         return $this->router->generate('responsive_image', ['class' => $image_class, 'width' => $image_width, 'image' => $original_image_url]);
     }
 

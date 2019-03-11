@@ -21,7 +21,7 @@ class AdaptImageExtension extends AbstractExtension
     public function getFunctions()
     {
         return [
-            new TwigFunction('wa72_responsive_img', [$this, 'responsiveImage'], ['is_safe' => 'html'])
+            new TwigFunction('wa72_responsive_img', [$this, 'responsiveImage'], ['is_safe' => ['html']])
         ];
     }
     public function responsiveImage($image, $class, $attrs = [])

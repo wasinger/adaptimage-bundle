@@ -18,6 +18,8 @@ class Configuration implements ConfigurationInterface
                         ->children()
                             ->arrayNode('widths')->scalarPrototype()->end()->end()
                             ->scalarNode('sizes_attribute')->end()
+                            ->scalarNode('height_constraint')->end()
+                            ->scalarNode('default_width')->end()
                         ->end() // children
                     ->end() // arrayPrototype
                 ->end() // classes

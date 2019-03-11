@@ -11,6 +11,7 @@ use Wa72\AdaptImage\Output\OutputPathGeneratorInterface;
 use Wa72\AdaptImage\ResponsiveImages\ResponsiveImageClass;
 use Wa72\AdaptImage\ResponsiveImages\ResponsiveImageHelper;
 use Wa72\AdaptImage\ResponsiveImages\ResponsiveImageRouterInterface;
+use Wa72\AdaptimageBundle\Controller\ImageController;
 use Wa72\AdaptimageBundle\Twig\AdaptImageExtension;
 use Wa72\AdaptimageBundle\Service\ResponsiveImageRouter;
 
@@ -64,6 +65,11 @@ class Wa72AdaptimageExtension extends Extension
         $d->addArgument(new Reference(ResponsiveImageHelper::class));
         $d->addTag('twig.extension');
         $container->setDefinition(AdaptImageExtension::class, $d);
+
+        $d = new Definition(ImageController::class);
+        $d->addArgument(new Reference(ResponsiveImageHelper::class));
+        $d->addTag('controller.service_arguments');
+        $container->setDefinition(ImageController::class, $d);
 
     }
 }
