@@ -9,7 +9,7 @@
         }
     ],
     "require": {
-        "wa72/adaptimage": "^0.3"
+        "wa72/adaptimage": "^0.4"
     },
     "autoload": {
         "psr-4": {

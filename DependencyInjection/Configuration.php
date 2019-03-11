@@ -16,7 +16,7 @@ class Configuration implements ConfigurationInterface
                     ->useAttributeAsKey('name')
                     ->arrayPrototype()
                         ->children()
-                            ->arrayNode('widths')->end()
+                            ->arrayNode('widths')->scalarPrototype()->end()->end()
                             ->scalarNode('sizes_attribute')->end()
                         ->end() // children
                     ->end() // arrayPrototype

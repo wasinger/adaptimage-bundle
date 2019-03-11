@@ -11,6 +11,7 @@ use Wa72\AdaptImage\Output\OutputPathGeneratorInterface;
 use Wa72\AdaptImage\ResponsiveImages\ResponsiveImageClass;
 use Wa72\AdaptImage\ResponsiveImages\ResponsiveImageHelper;
 use Wa72\AdaptImage\ResponsiveImages\ResponsiveImageRouterInterface;
+use Wa72\AdaptimageBundle\Twig\AdaptImageExtension;
 use Wa72\AdaptimageBundle\Service\ResponsiveImageRouter;
 
 class Wa72AdaptimageExtension extends Extension
@@ -37,6 +38,7 @@ class Wa72AdaptimageExtension extends Extension
 
         $d = new Definition(ImageResizer::class);
         $d->addArgument(new Reference(\Imagine\Image\ImagineInterface::class));
+        $d->addArgument(new Reference(OutputPathGeneratorInterface::class));
         $container->setDefinition(ImageResizer::class, $d);
 
         $d = new Definition(ResponsiveImageRouter::class);
@@ -48,10 +50,20 @@ class Wa72AdaptimageExtension extends Extension
         $d->addArgument(new Reference(ResponsiveImageRouterInterface::class));
         $d->addMethodCall('setResizer', [new Reference(ImageResizer::class)]);
         foreach ($config['classes'] as $name => $settings) {
-            $a = new ResponsiveImageClass($name, $settings['widths'], $settings['sizes_attribute']);
-            $d->addMethodCall('addClass', [$a]);
+            $ric = new Definition(ResponsiveImageClass::class);
+            $ric->addArgument($name);
+            $ric->addArgument($settings['widths']);
+            $ric->addArgument($settings['sizes_attribute']);
+            $service_name = 'wa72_adaptimage.classes.'.$name;
+            $container->setDefinition($service_name, $ric);
+            $d->addMethodCall('addClass', [new Reference($service_name)]);
         }
         $container->setDefinition(ResponsiveImageHelper::class, $d);
+
+        $d = new Definition(AdaptImageExtension::class);
+        $d->addArgument(new Reference(ResponsiveImageHelper::class));
+        $d->addTag('twig.extension');
+        $container->setDefinition(AdaptImageExtension::class, $d);
 
     }
 }
