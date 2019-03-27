@@ -33,6 +33,10 @@ class ResponsiveImageRouter implements ResponsiveImageRouterInterface
 
     public function getOriginalImageFileInfo($original_image_url)
     {
+        $baseurl = $this->router->getContext()->getBaseUrl();
+        if (substr($original_image_url, 0, strlen($baseurl)) === $baseurl) {
+            $original_image_url = substr($original_image_url, strlen($baseurl));
+        }
         if (substr($original_image_url, 0, 1) == '/') {
             $original_image_url = substr($original_image_url, 1);
         }
@@ -42,6 +46,10 @@ class ResponsiveImageRouter implements ResponsiveImageRouterInterface
 
     public function generateUrl($original_image_url, $image_class, $image_width)
     {
+        $baseurl = $this->router->getContext()->getBaseUrl();
+        if (substr($original_image_url, 0, strlen($baseurl)) === $baseurl) {
+            $original_image_url = substr($original_image_url, strlen($baseurl));
+        }
         if (substr($original_image_url, 0, 1) == '/') {
             $original_image_url = substr($original_image_url, 1);
         }
