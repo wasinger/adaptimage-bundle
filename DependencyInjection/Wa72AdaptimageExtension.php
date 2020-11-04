@@ -69,6 +69,8 @@ class Wa72AdaptimageExtension extends Extension
         $d = new Definition(ImageController::class);
         $d->addArgument(new Reference(ResponsiveImageHelper::class));
         $d->addTag('controller.service_arguments');
+        $d->addTag('container.service_subscriber');
+        $d->setAutowired(true);
         $container->setDefinition(ImageController::class, $d);
 
     }
